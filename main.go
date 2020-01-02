@@ -114,7 +114,7 @@ func startServer() {
 	//监听开始
 	logrus.Info("nats已经连接")
 
-	nc.Subscribe("*", service.GetMessage)
+	nc.Subscribe("cmd.*", service.GetMessage)
 
 	select {}
 }

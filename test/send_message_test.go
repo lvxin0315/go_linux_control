@@ -2,6 +2,9 @@ package test
 
 import (
 	"github.com/Unknwon/goconfig"
+	"github.com/lvxin0315/go_linux_control/db_conn"
+	"github.com/lvxin0315/go_linux_control/model"
+	"github.com/lvxin0315/go_linux_control/service"
 	"github.com/nats-io/go-nats"
 	"github.com/sirupsen/logrus"
 	"testing"
@@ -26,4 +29,18 @@ func Test_send(t *testing.T) {
 	nc.Publish("sss", []byte("123123123"))
 	nc.Publish("sss", []byte("123123123"))
 	nc.Publish("sss", []byte("123123123"))
+}
+
+func Test_sendCmd(t *testing.T) {
+	app := new(model.App)
+	//添加一个cmd
+	cmd := new(model.Cmd)
+	cmd.Cmd = "df -h"
+	cmd.Title = "test cmd"
+	cmd.Des = "查看磁盘使用率"
+	db, _ := db_conn.GetGormDB()
+	db.Create(cmd)
+	db.First(app)
+
+	service.SendCmdMessage(app, cmd)
 }
