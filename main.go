@@ -7,8 +7,16 @@ import (
 )
 
 var funcName string
-var appName string
-var appRemark string
+
+var appName, appRemark string
+
+var cmdTitle, cmdDes, cmdStr string
+
+var helpContent = `
+-- initDB:初始化mysql,配置etc/config.ini;
+-- createApp:创建应用,-appName, -appRemark
+-- createCmd:创建命令,-cmdTitle, -cmdDes, -cmdStr
+-- startServer:开启服务端`
 
 func init() {
 	flag.StringVar(&appName,
@@ -20,6 +28,21 @@ func init() {
 		"appRemark",
 		"appRemark",
 		"应用备注")
+
+	flag.StringVar(&cmdTitle,
+		"cmdTitle",
+		"cmdTitle",
+		"命令标题")
+
+	flag.StringVar(&cmdDes,
+		"cmdDes",
+		"cmdDes",
+		"命令描述")
+
+	flag.StringVar(&cmdStr,
+		"cmdStr",
+		"df -h /",
+		"命名内容")
 }
 
 func main() {
@@ -38,15 +61,13 @@ func main() {
 		runner.StartServer()
 	case "help":
 		help()
+	case "createCmd":
+		runner.CreateCmd(cmdTitle, cmdStr, cmdDes)
 	default:
-		logrus.Error("Command is missing")
+		logrus.Error("Command is missing, please use help!")
 	}
 }
 
 func help() {
-	helpContent := `
--- initDB:初始化mysql,配置etc/config.ini;
--- createApp:创建应用,-appName, -appRemark
--- startServer:开启服务端`
 	logrus.Info(helpContent)
 }

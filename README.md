@@ -15,3 +15,4 @@
 - 3.初始化db：main initDB
 - 4.创建：main createApp -appName="test1" -appRemark="remark"
 - 5.启动服务：main startServer
+- 6.创建命令：main createCmd -cmdTitle="cmd1" -cmdDes="cmd1Des" -cmdStr="du -sh *"
