@@ -39,8 +39,8 @@ func SaveMessage(sendId string, result []byte) {
 func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 	//生成send_cmd 记录
 	sendCmd := new(model.SendCmd)
-	sendCmd.App = app
-	sendCmd.Cmd = cmd
+	sendCmd.AppId = app.ID
+	sendCmd.CmdId = cmd.ID
 	db, err := db_conn.GetGormDB()
 	if err != nil {
 		logrus.Error(err)
@@ -67,10 +67,11 @@ func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 		logrus.Error(err)
 		return
 	}
+	logrus.Info("send cmd:", cmd.Cmd)
 	err = nc.PublishRequest(
-		fmt.Sprintf("app.%s", sendCmd.App.Secret),
+		fmt.Sprintf("app.%s", app.Secret),
 		fmt.Sprintf("cmd.%d", sendCmd.ID),
-		[]byte(sendCmd.Cmd.Cmd))
+		[]byte(cmd.Cmd))
 	if err != nil {
 		logrus.Error(err)
 		return

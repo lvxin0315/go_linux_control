@@ -35,12 +35,15 @@ func Test_sendCmd(t *testing.T) {
 	app := new(model.App)
 	//添加一个cmd
 	cmd := new(model.Cmd)
-	cmd.Cmd = "df -h"
+	cmd.Cmd = "df -h /"
 	cmd.Title = "test cmd"
 	cmd.Des = "查看磁盘使用率"
 	db, _ := db_conn.GetGormDB()
 	db.Create(cmd)
 	db.First(app)
+
+	logrus.Info(app)
+	logrus.Info(cmd)
 
 	service.SendCmdMessage(app, cmd)
 }
