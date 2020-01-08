@@ -48,7 +48,10 @@ func init() {
 func main() {
 	flag.Parse()
 	args := flag.Args()
-	if len(args) > 1 {
+	if len(args) == 0 {
+		logrus.Error("Command is missing, please use help!")
+		return
+	} else if len(args) > 1 {
 		_ = flag.CommandLine.Parse(args[1:])
 	}
 	funcName = args[0]
