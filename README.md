@@ -20,3 +20,8 @@
 
 ### 客户端
 - 1.开启服务 client -natsUrl="" -appSecret=""
+
+
+### 笔记
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go

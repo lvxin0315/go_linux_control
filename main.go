@@ -12,10 +12,13 @@ var appName, appRemark string
 
 var cmdTitle, cmdDes, cmdStr string
 
+var appId, cmdId string
+
 var helpContent = `
 -- initDB:初始化mysql,配置etc/config.ini;
 -- createApp:创建应用,-appName, -appRemark
 -- createCmd:创建命令,-cmdTitle, -cmdDes, -cmdStr
+-- sendCmd:发送命令,-appId, -cmdId
 -- startServer:开启服务端`
 
 func init() {
@@ -43,6 +46,16 @@ func init() {
 		"cmdStr",
 		"df -h /",
 		"命名内容")
+
+	flag.StringVar(&appId,
+		"appId",
+		"1",
+		"应用id")
+
+	flag.StringVar(&cmdId,
+		"cmdId",
+		"1",
+		"命令id")
 }
 
 func main() {
@@ -66,6 +79,8 @@ func main() {
 		help()
 	case "createCmd":
 		runner.CreateCmd(cmdTitle, cmdStr, cmdDes)
+	case "sendCmd":
+		runner.SendCmd(appId, cmdId)
 	default:
 		logrus.Error("Command is missing, please use help!")
 	}
