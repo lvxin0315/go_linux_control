@@ -81,6 +81,8 @@ func main() {
 		runner.CreateCmd(cmdTitle, cmdStr, cmdDes)
 	case "sendCmd":
 		runner.SendCmd(appId, cmdId)
+	case "sendCmdForAllApp":
+		runner.SendCmdForAllApp(cmdId)
 	default:
 		logrus.Error("Command is missing, please use help!")
 	}
