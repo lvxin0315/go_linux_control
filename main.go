@@ -19,6 +19,7 @@ var helpContent = `
 -- createApp:创建应用,-appName, -appRemark
 -- createCmd:创建命令,-cmdTitle, -cmdDes, -cmdStr
 -- sendCmd:发送命令,-appId, -cmdId
+-- sendCmdForAllApp:全部发送命令,-appId, -cmdId
 -- startServer:开启服务端`
 
 func init() {
