@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/lvxin0315/go_linux_control/common"
 	"github.com/nats-io/go-nats"
@@ -9,38 +8,37 @@ import (
 	"os/exec"
 )
 
-var natsUrl string
-var appSecret string
+var NatsUrl string
+var AppSecret string
 
-func init() {
-	flag.StringVar(&natsUrl,
-		"natsUrl",
-		"192.168.0.209:4222",
-		"nats地址")
-
-	flag.StringVar(&appSecret,
-		"appSecret",
-		"appSecret",
-		"应用秘钥")
-}
+//func init() {
+//	flag.StringVar(&natsUrl,
+//		"natsUrl",
+//		"192.168.0.209:4222",
+//		"nats地址")
+//
+//	flag.StringVar(&appSecret,
+//		"appSecret",
+//		"appSecret",
+//		"应用秘钥")
+//}
 
 var nc *nats.Conn
 
 func main() {
-	flag.Parse()
 	//开始监听nats
 	listenNats()
 }
 
 func listenNats() {
-	natsConn, err := nats.Connect(natsUrl)
+	natsConn, err := nats.Connect(NatsUrl)
 	if err != nil {
 		panic(err)
 	}
 	nc = natsConn
 	//监听开始
 	logrus.Info("nats已经连接")
-	nc.Subscribe(fmt.Sprintf("app.%s", appSecret), CmdClientRunner)
+	nc.Subscribe(fmt.Sprintf("app.%s", AppSecret), CmdClientRunner)
 	select {}
 }
 
