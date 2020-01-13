@@ -20,7 +20,9 @@ replace (
 
 require (
 	github.com/Unknwon/goconfig v0.0.0-20191126170842-860a72fb44fd
+	github.com/gin-gonic/gin v1.5.0
 	github.com/jinzhu/gorm v1.9.11
+	github.com/kr/pretty v0.2.0 // indirect
 	github.com/nats-io/gnatsd v1.4.1 // indirect
 	github.com/nats-io/go-nats v1.7.2
 	github.com/nats-io/nkeys v0.1.3 // indirect

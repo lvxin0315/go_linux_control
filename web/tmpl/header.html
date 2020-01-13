@@ -1,0 +1,28 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>control</title>
+
+    <link href="/static/bootstrap-3.3.7/css/bootstrap.css" type="text/css" rel="stylesheet">
+    <link href="/static/bootstrap-3.3.7/css/bootstrap-theme.css" type="text/css" rel="stylesheet">
+
+    <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap-3.3.7/js/bootstrap.js"></script>
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li role="presentation">
+        <a href="/dashboard">基础</a>
+    </li>
+    <li role="presentation" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+        </ul>
+    </li>
+</ul>
+    <hr/>
+{{end}}

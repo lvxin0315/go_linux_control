@@ -1,0 +1,80 @@
+{{template "header" .}}
+<div class="container-fluid">
+
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">应用列表</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>应用名</th>
+                        <th>备注</th>
+                    </tr>
+                    {{range $item := .AppList}}
+                    <tr>
+                        <td>{{.ID}}</td>
+                        <td>{{.Name}}</td>
+                        <td>{{.Remark}}</td>
+                    </tr>
+                    {{end}}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">命令列表</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>命令</th>
+                        <th>备注</th>
+                    </tr>
+                    {{range $item := .CmdList}}
+                    <tr>
+                        <td>{{.ID}}</td>
+                        <td>{{.Title}}</td>
+                        <td>{{.Cmd}}</td>
+                        <td>{{.Des}}</td>
+                    </tr>
+                    {{end}}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">执行情况</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    {{range $item := .SendCmdList}}
+                    <a href="javascript:;" class="list-group-item">
+                        <h4 class="list-group-item-heading">{{.App.Name}}</h4>
+                        <p class="list-group-item-text">
+                            {{if .Cmd}}
+                            {{.Cmd.Cmd}}
+                            {{end}}
+                        </p>
+                        <p class="list-group-item-text">
+                            {{.Result}}
+                        </p>
+                    </a>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{template "footer" }}

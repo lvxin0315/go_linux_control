@@ -15,7 +15,7 @@ var appSecret string
 func init() {
 	flag.StringVar(&natsUrl,
 		"natsUrl",
-		"127.0.0.1:4222",
+		"192.168.0.209:4222",
 		"nats地址")
 
 	flag.StringVar(&appSecret,
@@ -33,7 +33,6 @@ func main() {
 }
 
 func listenNats() {
-
 	natsConn, err := nats.Connect(natsUrl)
 	if err != nil {
 		panic(err)
@@ -51,6 +50,7 @@ func CmdClientRunner(m *nats.Msg) {
 		return
 	}
 	//执行命令, 并返回内容
+	logrus.Info("m.Reply:", m.Reply)
 	err := nc.Publish(m.Reply, exeSysCommand(m.Data))
 	if err != nil {
 		logrus.Error("CmdClientRunner nc.Publish: ", err)
@@ -75,5 +75,7 @@ func exeSysCommand(cmdStr []byte) []byte {
 		logrus.Error(err)
 		return nil
 	}
+	//结果
+	logrus.Info("out:", string(opBytes))
 	return opBytes
 }
