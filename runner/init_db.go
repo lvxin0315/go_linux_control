@@ -28,10 +28,22 @@ func InitDB() {
 	//先删除再创建
 	db.DropTableIfExists(tableList...)
 	db.CreateTable(tableList...)
+	//增加默认cmd内容
+	db.Save(DiskUseCmd())
 	//建立lock文件
 	err = ioutil.WriteFile("tmp/db_init.lock", []byte("go_linux_control"), 0666) //写入文件(字节数组)
 	if err != nil {
 		logrus.Error(err)
 		panic(err)
 	}
+}
+
+func DiskUseCmd() *model.Cmd {
+	cmd := new(model.Cmd)
+	cmd.Title = "查看磁盘空间"
+	cmd.Cmd = "df -h"
+	cmd.RouteKey = "disk_use"
+	cmd.IsSystem = true
+	cmd.Des = "查看磁盘空间"
+	return cmd
 }

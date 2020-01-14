@@ -29,4 +29,4 @@
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
 
-go build -ldflags "-X 'main.NatsUrl=192.168.0.209:4222' -X 'main.AppSecret=ss'" -o linux_control_client client.go
+go build -ldflags "-X 'main.NatsUrl=192.168.0.230:4222' -X 'main.AppSecret=ss'" -o linux_control_client client.go

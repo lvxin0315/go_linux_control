@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"github.com/Unknwon/goconfig"
+	"github.com/lvxin0315/go_linux_control/common"
 	"github.com/lvxin0315/go_linux_control/db_conn"
 	"github.com/lvxin0315/go_linux_control/model"
 	"github.com/nats-io/go-nats"
@@ -41,6 +41,7 @@ func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 	sendCmd := new(model.SendCmd)
 	sendCmd.AppId = app.ID
 	sendCmd.CmdId = cmd.ID
+	sendCmd.CmdStr = cmd.Cmd
 	db, err := db_conn.GetGormDB()
 	if err != nil {
 		logrus.Error(err)
@@ -51,16 +52,7 @@ func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 		logrus.Error("sendCmd保存失败")
 		return
 	}
-	cfg, err := goconfig.LoadConfigFile("etc/config.ini")
-	if err != nil {
-		logrus.Error("goconfig.LoadConfigFile 「config.ini」 is error:", err)
-		return
-	}
-	conn, err := cfg.GetValue("nats", "host")
-	if err != nil {
-		logrus.Error("cfg.GetValue 「config.ini」 is error:", err)
-		return
-	}
+	conn := common.GetConfig("nats", "host")
 	nc, err := nats.Connect(conn)
 	defer nc.Close()
 	if err != nil {
@@ -68,9 +60,14 @@ func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 		return
 	}
 	logrus.Info("send cmd:", cmd.Cmd)
+	//指定reply
+	reply := fmt.Sprintf("cmd.%d", sendCmd.ID)
+	if cmd.RouteKey != "" {
+		reply = fmt.Sprintf("%s.%d", cmd.RouteKey, sendCmd.ID)
+	}
 	err = nc.PublishRequest(
 		fmt.Sprintf("app.%s", app.Secret),
-		fmt.Sprintf("cmd.%d", sendCmd.ID),
+		reply,
 		[]byte(cmd.Cmd))
 	if err != nil {
 		logrus.Error(err)

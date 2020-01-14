@@ -26,6 +26,9 @@ func StartServer() {
 	//监听开始
 	logrus.Info("nats已经连接")
 
+	//系统定制消息接收
+	nc.Subscribe("disk_use.*", service.GetDiskUseMessage)
+	//自定义消息接收
 	nc.Subscribe("cmd.*", service.GetMessage)
 
 	select {}

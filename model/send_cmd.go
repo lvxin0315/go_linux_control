@@ -11,6 +11,7 @@ type SendCmd struct {
 	AppId        uint             `gorm:"column:app_id"`
 	Cmd          *Cmd             `gorm:"ForeignKey:Cmd"` //发送的命令
 	CmdId        uint             `gorm:"column:cmd_id"`
+	CmdStr       string           `gorm:"column:cmd_str"`
 	Result       string           `gorm:"type:text;column:result"`      //执行命令结果
 	ResultToJson string           `gorm:"type:text;column:result_json"` //执行命令结果json
 	format       format.CmdFormat //格式化方法
