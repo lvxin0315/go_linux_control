@@ -28,6 +28,9 @@ func StartServer() {
 
 	//系统定制消息接收
 	nc.Subscribe("disk_use.*", service.GetDiskUseMessage)
+	nc.Subscribe("meminfo.*", service.GetMemInfoMessage)
+	nc.Subscribe("cpuinfo.*", service.GetCpuInfoMessage)
+
 	//自定义消息接收
 	nc.Subscribe("cmd.*", service.GetMessage)
 

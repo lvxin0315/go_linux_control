@@ -30,6 +30,8 @@ func InitDB() {
 	db.CreateTable(tableList...)
 	//增加默认cmd内容
 	db.Save(DiskUseCmd())
+	db.Save(MemInfoCmd())
+	db.Save(CpuInfoCmd())
 	//建立lock文件
 	err = ioutil.WriteFile("tmp/db_init.lock", []byte("go_linux_control"), 0666) //写入文件(字节数组)
 	if err != nil {
@@ -45,5 +47,25 @@ func DiskUseCmd() *model.Cmd {
 	cmd.RouteKey = "disk_use"
 	cmd.IsSystem = true
 	cmd.Des = "查看磁盘空间"
+	return cmd
+}
+
+func MemInfoCmd() *model.Cmd {
+	cmd := new(model.Cmd)
+	cmd.Title = "查看内存情况"
+	cmd.Cmd = "cat /proc/meminfo"
+	cmd.RouteKey = "meminfo"
+	cmd.IsSystem = true
+	cmd.Des = "查看内存情况"
+	return cmd
+}
+
+func CpuInfoCmd() *model.Cmd {
+	cmd := new(model.Cmd)
+	cmd.Title = "查看cpu情况"
+	cmd.Cmd = "cat /proc/cpuinfo"
+	cmd.RouteKey = "cpuinfo"
+	cmd.IsSystem = true
+	cmd.Des = "查看cpu情况"
 	return cmd
 }
