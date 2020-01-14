@@ -20,7 +20,7 @@ type DFHFormat struct {
 func (f *DFHFormat) ToJson(content string) string {
 	//根据换行符拆分
 	contents := strings.Split(content, "\n")
-	if len(contents) < 1 {
+	if len(contents) <= 1 {
 		return content
 	}
 	//第一个行作为key
