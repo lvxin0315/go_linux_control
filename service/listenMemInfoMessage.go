@@ -15,12 +15,8 @@ func GetMemInfoMessage(m *nats.Msg) {
 
 //保存返回值到db
 func SaveMemInfoMessage(sendId string, result []byte) {
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
-
+	db := db_conn.GetGormDB()
+	defer db.Close()
 	//保存记录
 	sendCmd := new(model.SendCmd)
 	db.First(sendCmd, map[string]interface{}{

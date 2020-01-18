@@ -38,7 +38,7 @@ func Test_sendCmd(t *testing.T) {
 	cmd.Cmd = "df -h"
 	cmd.Title = "test cmd"
 	cmd.Des = "查看磁盘使用率"
-	db, _ := db_conn.GetGormDB()
+	db := db_conn.GetGormDB()
 	db.Create(cmd)
 	db.First(app)
 	//logrus.Info(app)

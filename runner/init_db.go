@@ -15,16 +15,14 @@ func InitDB() {
 		return
 	}
 	//初始化db
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
+	db := db_conn.GetGormDB()
 	//建表
 	tableList := []interface{}{
 		&model.App{},
 		&model.Cmd{},
-		&model.SendCmd{}}
+		&model.SendCmd{},
+		&model.AppStatus{},
+	}
 	//先删除再创建
 	db.DropTableIfExists(tableList...)
 	db.CreateTable(tableList...)
@@ -33,7 +31,7 @@ func InitDB() {
 	db.Save(MemInfoCmd())
 	db.Save(CpuInfoCmd())
 	//建立lock文件
-	err = ioutil.WriteFile("tmp/db_init.lock", []byte("go_linux_control"), 0666) //写入文件(字节数组)
+	err := ioutil.WriteFile("tmp/db_init.lock", []byte("go_linux_control"), 0666) //写入文件(字节数组)
 	if err != nil {
 		logrus.Error(err)
 		panic(err)

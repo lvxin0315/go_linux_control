@@ -10,11 +10,7 @@ import (
 //创建cmd
 func CreateCmd(cmdTitle, cmdStr, cmdDes string) {
 	//生成
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
+	db := db_conn.GetGormDB()
 	cmd := new(model.Cmd)
 	cmd.Title = cmdTitle
 	cmd.Des = cmdDes

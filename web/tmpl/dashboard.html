@@ -1,80 +1,52 @@
 {{template "header" .}}
 <div class="container-fluid">
 
-    <div class="col-lg-4 col-md-6">
-        <div class="panel panel-default">
+{{range $item := .Data}}
+    <div class="col-lg-3 col-md-6">
+        <div class="panel {{if eq .Online true}} panel-success {{else}} panel-danger {{end}} " data-id="{{.ID}}">
             <div class="panel-heading">
-                <h3 class="panel-title">应用列表</h3>
+                <h3 class="panel-title">{{.App.Name}}</h3>
             </div>
             <div class="panel-body">
-                <table class="table">
-                    <tr>
-                        <th>ID</th>
-                        <th>应用名</th>
-                        <th>备注</th>
-                    </tr>
-                    {{range $item := .AppList}}
-                    <tr>
-                        <td>{{.ID}}</td>
-                        <td>{{.Name}}</td>
-                        <td>{{.Remark}}</td>
-                    </tr>
-                    {{end}}
-                </table>
+                {{.App.Remark}}
             </div>
+            <ul class="list-group">
+                <li class="list-group-item cpu">Cpu: <i>{{.Cpu}}</i> </li>
+                <li class="list-group-item mem">Mem: <i>{{.Mem}}</i> </li>
+                <li class="list-group-item disk">Disk: <i>{{.Disk}}</i> </li>
+            </ul>
         </div>
     </div>
-
-    <div class="col-lg-4 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">命令列表</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table">
-                    <tr>
-                        <th>ID</th>
-                        <th>名称</th>
-                        <th>命令</th>
-                        <th>备注</th>
-                    </tr>
-                    {{range $item := .CmdList}}
-                    <tr>
-                        <td>{{.ID}}</td>
-                        <td>{{.Title}}</td>
-                        <td>{{.Cmd}}</td>
-                        <td>{{.Des}}</td>
-                    </tr>
-                    {{end}}
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-4 col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">执行情况</h3>
-            </div>
-            <div class="panel-body">
-                <div class="list-group">
-                    {{range $item := .SendCmdList}}
-                    <a href="javascript:;" class="list-group-item">
-                        <h4 class="list-group-item-heading">{{.App.Name}}</h4>
-                        <p class="list-group-item-text">
-                            {{if .Cmd}}
-                            {{.Cmd.Cmd}}
-                            {{end}}
-                        </p>
-                        <p class="list-group-item-text">
-                            {{.Result}}
-                        </p>
-                    </a>
-                    {{end}}
-                </div>
-            </div>
-        </div>
-    </div>
-
+{{end}}
 </div>
+    <script>
+        $(function(){
+            function demo(o,id) {
+                console.log(id);
+                $.get("/api/dashboard_data?id=" + id, function(res){
+                    //online
+                    if( res.data.online ){
+                        o.removeClass("panel-danger").addClass("panel-success")
+                    }else{
+                        o.removeClass("panel-success").addClass("panel-danger")
+                    }
+                    //cpu
+                    o.find(".cpu >i").html(res.data.cpu);
+                    //mem
+                    o.find(".mem >i").html(res.data.mem);
+                    //disk
+                    o.find(".disk >i").html(res.data.disk);
+
+
+                });
+            }
+
+            function init() {
+                $(".panel").each(function(i, p){
+                    setInterval( demo, 500 , $(p), $(p).data("id"))
+                });
+            }
+            init();
+        });
+    </script>
 {{template "footer" }}

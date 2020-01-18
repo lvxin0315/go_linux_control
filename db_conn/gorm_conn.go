@@ -7,22 +7,25 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func GetGormDB() (*gorm.DB, error) {
+func GetGormDB() *gorm.DB {
 	cfg, err := goconfig.LoadConfigFile("etc/config.ini")
 	if err != nil {
 		logrus.Error("goconfig.LoadConfigFile is error:", err)
-		return nil, err
+		panic(err)
+		return nil
 	}
 	conn, err := cfg.GetValue("gorm", "conn")
 	if err != nil {
 		logrus.Error("cfg.GetValue is error:", err)
-		return nil, err
+		panic(err)
+		return nil
 	}
 	db, err := gorm.Open("mysql", conn)
 	if err != nil {
 		logrus.Info("conn:", conn)
 		logrus.Error("GetGormDB is error: ", err)
-		return nil, err
+		panic(err)
+		return nil
 	}
-	return db, nil
+	return db
 }

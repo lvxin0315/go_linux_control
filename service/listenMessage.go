@@ -16,12 +16,8 @@ func GetMessage(m *nats.Msg) {
 
 //保存返回值到db
 func SaveMessage(sendId string, result []byte) {
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
-
+	db := db_conn.GetGormDB()
+	defer db.Close()
 	//保存记录
 	sendCmd := new(model.SendCmd)
 	db.First(sendCmd, map[string]interface{}{
@@ -42,11 +38,8 @@ func SendCmdMessage(app *model.App, cmd *model.Cmd) {
 	sendCmd.AppId = app.ID
 	sendCmd.CmdId = cmd.ID
 	sendCmd.CmdStr = cmd.Cmd
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		return
-	}
+	db := db_conn.GetGormDB()
+	defer db.Close()
 	db.Create(sendCmd)
 	if sendCmd.ID <= 0 {
 		logrus.Error("sendCmd保存失败")

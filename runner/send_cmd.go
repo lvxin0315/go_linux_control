@@ -10,12 +10,7 @@ import (
 
 func SendCmd(appId, cmdId string) {
 	logrus.Info("send cmd ", appId, "  ", cmdId)
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
-
+	db := db_conn.GetGormDB()
 	app := new(model.App)
 	db.First(app, map[string]interface{}{
 		"id": appId,
@@ -29,11 +24,7 @@ func SendCmd(appId, cmdId string) {
 }
 
 func SendCmdForAllApp(cmdId string) {
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
+	db := db_conn.GetGormDB()
 	var appList []*model.App
 	db.Model(model.App{}).Find(&appList)
 	logrus.Info("sendAppLen:", len(appList))

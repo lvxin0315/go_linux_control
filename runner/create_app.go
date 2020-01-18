@@ -11,11 +11,7 @@ import (
 //创建app
 func CreateApp(appName, appRemark string) {
 	//生成
-	db, err := db_conn.GetGormDB()
-	if err != nil {
-		logrus.Error(err)
-		panic(err)
-	}
+	db := db_conn.GetGormDB()
 	app := new(model.App)
 	app.Secret = common.UniqueId()
 	app.Name = appName
